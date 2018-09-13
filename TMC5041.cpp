@@ -1,5 +1,4 @@
 #include "TMC5041.h"
-#include <SPI.h>
 
 TMC5041::TMC5041(){ bool trashes = false;}
 TMC5041::TMC5041(uint8_t CSpin) { chipCS = CSpin; }
@@ -81,8 +80,11 @@ void TMC5041::begin() {
 
   // Set up origins
   //correctLocation();
+  sendData(0xA1,0x00000000);
+  sendData(0xA1,0x00000000);
   sendData(0xAD,0x00000000);     //XTARGET=0
   sendData(0xCD,0x00000000);     //XTARGET=0
+
 
 }
 
