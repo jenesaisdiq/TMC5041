@@ -1,4 +1,15 @@
-//#include <Arduino.h>
+#ifdef PARTICLE
+	#include "Particle.h"
+#endif
+
+#ifdef ARDUINO
+//#warnings ARDUINO !!!
+    #if ARDUINO < 100
+        #include "WProgram.h"
+    #else
+        #include "Arduino.h"
+    #endif
+#endif
 #include <stdint.h>
 
 class TMC5041{
