@@ -14,10 +14,10 @@ void TMC5041::begin() {
  	digitalWrite(chipCS,HIGH);
  	digitalWrite(enable,LOW);
 
- 	SPI.setBitOrder(MSBFIRST);
- 	SPI.setClockDivider(SPI_CLOCK_DIV8);
- 	SPI.setDataMode(SPI_MODE3);
- 	SPI.begin();
+ 	SPI1.setBitOrder(MSBFIRST);
+ 	SPI1.setClockDivider(SPI_CLOCK_DIV8);
+ 	SPI1.setDataMode(SPI_MODE3);
+ 	SPI1.begin();
 
  	sendData(0x80,0x00000000);      //GCONF
 
@@ -178,15 +178,15 @@ void TMC5041::sendData(unsigned long address, unsigned long datagram) {
   digitalWrite(chipCS,LOW);
   delayMicroseconds(10);
 
-  SPI.transfer(address); 
+  SPI1.transfer(address); 
 
-  i_datagram |= SPI.transfer((datagram >> 24) & 0xFF);
+  i_datagram |= SPI1.transfer((datagram >> 24) & 0xFF);
   i_datagram <<= 8;
-  i_datagram |= SPI.transfer((datagram >> 16) & 0xFF);
+  i_datagram |= SPI1.transfer((datagram >> 16) & 0xFF);
   i_datagram <<= 8;
-  i_datagram |= SPI.transfer((datagram >> 8) & 0xFF);
+  i_datagram |= SPI1.transfer((datagram >> 8) & 0xFF);
   i_datagram <<= 8;
-  i_datagram |= SPI.transfer((datagram) & 0xFF);
+  i_datagram |= SPI1.transfer((datagram) & 0xFF);
   digitalWrite(chipCS,HIGH);
 
   // Serial.print("Received: ");
@@ -204,15 +204,15 @@ unsigned long TMC5041::readData(unsigned long address){
  	digitalWrite(chipCS,LOW);
  	delayMicroseconds(10);
 
- 	SPI.transfer(address); // might as well hit that address again, though just queues up junk for the next read/write
+ 	SPI1.transfer(address); // might as well hit that address again, though just queues up junk for the next read/write
 
- 	i_datagram |= SPI.transfer(0x00);
+ 	i_datagram |= SPI1.transfer(0x00);
  	i_datagram <<= 8;
- 	i_datagram |= SPI.transfer(0x00);
+ 	i_datagram |= SPI1.transfer(0x00);
  	i_datagram <<= 8;
- 	i_datagram |= SPI.transfer(0x00);
+ 	i_datagram |= SPI1.transfer(0x00);
  	i_datagram <<= 8;
- 	i_datagram |= SPI.transfer(0x00);
+ 	i_datagram |= SPI1.transfer(0x00);
  	digitalWrite(chipCS,HIGH);
 
  	return i_datagram;
